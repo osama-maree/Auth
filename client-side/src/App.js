@@ -8,6 +8,7 @@ import Login from "./component/login/Login";
 import Signup from "./component/signup/Signup";
 import Update from "./component/updateProfile/Update";
 import PageNotFound from "./PageNotFound";
+import './app.css'
 export const AuthContext = createContext({});
 
 function App() {
@@ -39,25 +40,27 @@ function App() {
   }, []);
 //xxxxxxx
   return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Router>
-          <AuthContext.Provider value={info}>
-            <Routes>
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/" element={<Login />} />
-              <Route path="/forget-password" element={<ForgetPassword />} />
-              <Route path="/update-profile" element={<Update />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="*" element={<PageNotFound />} />
-            </Routes>
-          </AuthContext.Provider>
-        </Router>
-      </div>
-    </Container>
+    <div className="style">
+      <Container
+        className="d-flex align-items-center justify-content-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <div className="w-100" style={{ maxWidth: "400px" }}>
+          <Router>
+            <AuthContext.Provider value={info}>
+              <Routes>
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/" element={<Login />} />
+                <Route path="/forget-password" element={<ForgetPassword />} />
+                <Route path="/update-profile" element={<Update />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </AuthContext.Provider>
+          </Router>
+        </div>
+      </Container>
+    </div>
   );
 }
 

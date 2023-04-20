@@ -52,6 +52,7 @@ function Update() {
         } else if (response.data.error === "error token") {
           setError("You are not logged in");
         } else {
+          window.location.reload(false);
           navigate("/home");
         }
       })
@@ -120,10 +121,10 @@ function Update() {
             </Button>
           </Form>
         </Card.Body>
+        <div className="w-100 text-center mt-1 pb-2">
+          <Link to="/home">Cancel</Link>
+        </div>
       </Card>
-      <div className="w-100 text-center mt-2">
-        <Link to="/home">Cancel</Link>
-      </div>
     </>
   );
 }

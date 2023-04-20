@@ -1,8 +1,10 @@
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Card, Form } from "react-bootstrap";
+import jwt_decode from "jwt-decode";
 import axios from "axios";
 import { AuthContext } from "../../App";
+import "./../signup/signup.css";
 function Login() {
   let infor = useContext(AuthContext);
   const [error, setError] = useState("");
@@ -23,16 +25,18 @@ function Login() {
         .post(`http://localhost:4001/api/v1/auth/signin`, data)
         .then((res) => {
           if (res.data.error === "veryfing email")
-          return  setError("please Verifynig your email");
+            return setError("please Verifynig your email");
           else if (res.data.error === "Fail")
-          return  setError("error please try again");
+            return setError("error please try again");
           else if (res.data.message === "logged") {
-            localStorage.setItem("token", res.data.information);
-            localStorage.setItem("name", res.data.Name);
-            localStorage.setItem("id", res.data.id);
+            const decoded = jwt_decode(res.data.token);
+
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("name", decoded.name);
+            localStorage.setItem("id", decoded.id);
             infor.setUser({
-              name: res.data.Name,
-              id: res.data.id,
+              name: decoded.name,
+              id: decoded.id,
             });
             navigate("/home");
           }
@@ -72,14 +76,16 @@ function Login() {
               Log In
             </Button>
           </Form>
+          <div className=" rounded text-center mt-2 py-2">
+            Need an account ? <Link to="/signup">Sign Up</Link>
+          </div>
           <div className="w-100 text-center mt-3">
-            <Link to="/forget-password">Forget Password</Link>
+            <Link to="/forget-password" className="text-danger">
+              Forget Password
+            </Link>
           </div>
         </Card.Body>
       </Card>
-      <div className="w-100 text-center ,t-2">
-        Need an account ? <Link to="/signup">Sign Up</Link>
-      </div>
     </>
   );
 }

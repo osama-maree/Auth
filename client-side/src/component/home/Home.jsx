@@ -10,7 +10,7 @@ function Home() {
   const handelLogout = async () => {
     try {
       setError("");
-      localStorage.clear()
+      localStorage.clear();
       navigate("/");
     } catch (err) {
       setError("Error in logout");
@@ -20,16 +20,18 @@ function Home() {
     if (!localStorage.getItem("token")) {
       navigate("/");
     }
-  }, []);
+  }, [navigate]);
   return (
     <>
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Profile Page</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <strong>Email:</strong>
-          {info.User.name}
-        
+          <span className="bg-dark p-3 text-white rounded border">
+            {" "}
+            <strong>Name:</strong>
+            <span className="">{info.User.name}</span>
+          </span>
           <Link to="/update-profile" className="btn btn-primary w-100 mt-3">
             Update Profile
           </Link>

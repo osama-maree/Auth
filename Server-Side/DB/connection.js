@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 mongoose.set("strictQuery", true);
 const connectDB = async () => {
   return await mongoose
-    .connect("mongodb://localhost:27017/auth")
+    .connect("mongodb://localhost:27017/auth1")
     .then((res) => {
       console.log("connection DB");
     })

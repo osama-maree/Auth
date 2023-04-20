@@ -19,7 +19,7 @@ function ForgetPassword() {
       const data = {
         email: emailRef.current.value,
       };
-      console.log(data.email);
+     
       await axios
         .post(`http://localhost:4001/api/v1/auth/sendcode`, data)
         .then((res) => {
@@ -108,7 +108,7 @@ function ForgetPassword() {
             </Form.Group>
             <div className="d-flex align-items-center justify-content-between">
               <Button
-                variant="primary"
+                variant="success"
                 type="submit"
                 className="w-45 mt-3 "
                 disabled={loading || !flage}
@@ -131,10 +131,10 @@ function ForgetPassword() {
             <Link to="/">Login page</Link>
           </div>
         </Card.Body>
+        <div className="w-100 text-center py-2 border rounded bg-light">
+          Need an account ? <Link to="/signup">Sign Up</Link>
+        </div>
       </Card>
-      <div className="w-100 text-center ,t-2">
-        Need an account ? <Link to="/signup">Sign Up</Link>
-      </div>
     </>
   );
 }

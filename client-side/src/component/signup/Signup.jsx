@@ -1,8 +1,9 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Alert, Button, Card, Form } from "react-bootstrap";
 import { useRef } from "react";
 import axios from "axios";
+import "./signup.css";
 function Signup() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -41,15 +42,19 @@ function Signup() {
         gender: genderRef.current.value,
         age: ageRef.current.value,
       };
+    
       await axios
         .post(`http://localhost:4001/api/v1/auth/signup`, data)
-        .then((response) => {
+        .then((response) => {  console.log(response);
           if (response.data.message === "added user") {
             setMessage(
               "success,check your email and verify it,finally go to login "
             );
-          } else if (response.data.error === "fail to singup") {
-            setError("Fail in create account please try again");
+          } else if (
+            response.data.message === "fail to singup" ||
+            response.data.message === "user exit"
+          ) {
+            setError(response.data.message);
           }
         });
     } catch (err) {
@@ -57,6 +62,7 @@ function Signup() {
     }
     setLoading(false);
   };
+
   return (
     <>
       <Card>
@@ -66,30 +72,42 @@ function Signup() {
           {messege && <Alert variant="success">{messege}</Alert>}
           <Form onSubmit={handelSubmit}>
             <Form.Group>
-              <Form.Label htmlFor="name">name</Form.Label>
+              <Form.Label htmlFor="name" className="h5">
+                name
+              </Form.Label>
               <Form.Control type="text" id="name" ref={nameRef} />
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="email">Email</Form.Label>
+              <Form.Label htmlFor="email" className="h5">
+                Email
+              </Form.Label>
               <Form.Control type="email" id="email" ref={emailRef} />
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="password">Password</Form.Label>
+              <Form.Label htmlFor="password" className="h5">
+                Password
+              </Form.Label>
               <Form.Control type="password" id="password" ref={passwordRef} />
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="cpassword">Confirm Password</Form.Label>
+              <Form.Label htmlFor="cpassword" className="h5">
+                Confirm Password
+              </Form.Label>
               <Form.Control type="password" id="cpassword" ref={cpassword} />
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="gender">Gender</Form.Label>
+              <Form.Label htmlFor="gender" className="h5">
+                Gender
+              </Form.Label>
               <Form.Select type="textbox" id="gender" ref={genderRef}>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </Form.Select>
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="age">Age</Form.Label>
+              <Form.Label htmlFor="age" className="h5">
+                Age
+              </Form.Label>
               <Form.Control
                 type="number"
                 min="12"
@@ -99,7 +117,7 @@ function Signup() {
               />
             </Form.Group>
             <Button
-              variant="primary"
+              variant="success"
               type="submit"
               className="w-100 mt-3"
               disabled={loading}
@@ -107,11 +125,11 @@ function Signup() {
               Submit
             </Button>
           </Form>
+          <div className=" bg-danger text-white mt-2  rounded text-center py-2">
+            Already have an account ? <Link to="/">Login</Link>
+          </div>
         </Card.Body>
       </Card>
-      <div className="w-100 text-center ,t-2">
-        Already have an account ? <Link to="/">Login</Link>
-      </div>
     </>
   );
 }
